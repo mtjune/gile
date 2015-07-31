@@ -6,7 +6,7 @@ require 'gile/version'
 Gem::Specification.new do |spec|
   spec.name          = "gile"
   spec.version       = Gile::VERSION
-  spec.authors       = ["Yukich"]
+  spec.authors       = ["MtJune"]
   spec.email         = ["june.ymd@gmail.com"]
 
   spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
@@ -30,4 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"
+
+  spec.add_dependency "thor"
+  spec.add_dependency "baby_erubis"
 end

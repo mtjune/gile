@@ -10,5 +10,7 @@ require "gile"
 # require "pry"
 # Pry.start
 
-require "irb"
-IRB.start
+# require "irb"
+# IRB.start
+
+Gile::CLI.start
