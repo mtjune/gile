@@ -6,10 +6,22 @@ require 'baby_erubis'
 module Gile
   class GileLicence
 
-    def initialize(name = nil, year = nil)
+    def initialize(kind, name = nil, year = nil)
 
-      config_path = File.dirname(__FILE__) + "/../config/"
-      @config = nil
+      @error = false
+
+      license_list = ["mit", "bsd"]
+
+      if license_list.include?(kind) then
+        @kind = kind
+      else
+        puts "The usable license is " + license_list.length.to_s + " kinds of the next" + license_list.to_s
+        @error = true
+        return
+      end
+
+
+      config_path = File.dirname(__FILE__) + "/../../config/"
       if File.exist?(config_path + "config.yml") then
         @config = YAML.load_file(config_path + "config.yml")
       else
@@ -18,9 +30,9 @@ module Gile
 
 
       if name then
-        @name = name
+        @author = name
       else
-        @name = @config['name']
+        @author = @config['name']
       end
 
       if year then
@@ -29,20 +41,25 @@ module Gile
         @year = Time.new.year.to_s
       end
 
-      @resource_path = File.dirname(__FILE__) + '/../resource/licenses/'
+      @resource_file = File.dirname(__FILE__) + '/../../resource/licenses/' + kind + '.erb'
 
     end
 
     def generate
+
+      if @error then
+        puts 'ERROR'
+        return
+      end
 
       if File.exist?("LICENSE") then
         puts 'LICENSE file already exist'
         return
       end
 
-      data = BabyErubis::Text.new.from_file(@resource_path + 'mit.erb', 'utf-8')
+      data = BabyErubis::Text.new.from_file(@resource_file, 'utf-8')
 
-      context = {year: @year, name: @name}
+      context = {year: @year, author: @author}
 
       output_data = data.render(context)
 

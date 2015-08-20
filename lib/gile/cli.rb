@@ -7,12 +7,18 @@ module Gile
     desc "license mit", "Generate LICENSE file"
     def mit
 
-      mit = GileLicence.new()
-      mit.generate()
+      license = GileLicence.new('mit')
+      license.generate()
 
     end
 
+    desc "license bsd", "Generate LICENSE file"
+    def bsd
 
+      license = GileLicence.new('bsd')
+      license.generate()
+
+    end
 
   end
 end
