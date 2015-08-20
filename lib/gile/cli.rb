@@ -5,8 +5,10 @@ require 'thor'
 module Gile
   class CLI < Thor
     desc "license mit", "Generate LICENSE file"
-    option :name, type: :string, default: ENV['USER']
-    def license(kind)
+    def mit
+
+      mit = GileLicence.new()
+      mit.generate()
 
     end
 
