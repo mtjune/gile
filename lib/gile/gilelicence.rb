@@ -6,11 +6,11 @@ require 'baby_erubis'
 module Gile
   class GileLicence
 
-    def initialize(kind, name = nil, year = nil)
+    def initialize(kind, filename = nil, author = nil, year = nil)
 
       @error = false
 
-      license_list = ["mit", "bsd"]
+      license_list = ["mit", "bsd", "artistic"]
 
       if license_list.include?(kind) then
         @kind = kind
@@ -41,6 +41,12 @@ module Gile
         @year = Time.new.year.to_s
       end
 
+      if filename then
+        @filename = filename
+      else
+        @filename = @config['license_filename']
+      end
+
       @resource_file = File.dirname(__FILE__) + '/../../resource/licenses/' + kind + '.erb'
 
     end
@@ -52,9 +58,17 @@ module Gile
         return
       end
 
-      if File.exist?("LICENSE") then
-        puts 'LICENSE file already exist'
-        return
+      if File.exist?(@filename) then
+        while true do
+          puts 'LICENSE file already exist. Overwrite? [y/n]'
+          response = gets.chomp
+          if response ~= /^[yY]/
+            break
+          elsif response ~= /^[nN]/
+            return
+          end
+          puts 'Please type y or n'
+        end
       end
 
       data = BabyErubis::Text.new.from_file(@resource_file, 'utf-8')
@@ -63,7 +77,7 @@ module Gile
 
       output_data = data.render(context)
 
-      f = open("LICENSE", "w")
+      f = open(@filename, "w")
       f.write(output_data)
       f.close
     end
