@@ -9,4 +9,8 @@ module Gile
     license.generate()
   end
 
+  def generate_code(kind, options)
+
+  end
+
 end

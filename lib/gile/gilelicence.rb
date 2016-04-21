@@ -62,9 +62,9 @@ module Gile
         while true do
           puts 'LICENSE file already exist. Overwrite? [y/n]'
           response = gets.chomp
-          if response ~= /^[yY]/
+          if response =~ /^[yY]/
             break
-          elsif response ~= /^[nN]/
+          elsif response =~ /^[nN]/
             return
           end
           puts 'Please type y or n'
